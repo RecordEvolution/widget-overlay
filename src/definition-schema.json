@@ -1,0 +1,77 @@
+{
+    "title": "Configure the Image",
+    "type": "object",
+    "properties": {
+        "title": {
+            "title": "Title Settings",
+            "order": 1,
+            "type": "object",
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "order": 1,
+                    "type": "string"
+                },
+                "fontSize": {
+                    "title": "Font Size",
+                    "order": 2,
+                    "dataDrivenDisabled": true,
+                    "type": "string"
+                },
+                "fontWeight": {
+                    "title": "Font Weight",
+                    "order": 3,
+                    "dataDrivenDisabled": true,
+                    "type": "number"
+                },
+                "color": {
+                    "title": "Font Color",
+                    "order": 4,
+                    "type": "color",
+                    "color": true
+                },
+                "backgroundColor": {
+                    "title": "Background Color",
+                    "order": 5,
+                    "type": "color",
+                    "color": true
+                }
+            }
+        },
+        "subTitle": {
+            "title": "Subtitle Settings",
+            "type": "object",
+            "order": 2,
+            "properties": {
+                "text": {
+                    "title": "Text",
+                    "order": 1,
+                    "type": "string"
+                },
+                "fontSize": {
+                    "title": "Font Size",
+                    "order": 2,
+                    "dataDrivenDisabled": true,
+                    "type": "string"
+                },
+                "fontWeight": {
+                    "title": "Font Weight",
+                    "order": 3,
+                    "dataDrivenDisabled": true,
+                    "type": "number"
+                },
+                "color": {
+                    "title": "Font Color",
+                    "order": 4,
+                    "type": "color",
+                    "color": true
+                }
+            }
+        },
+        "imageLink": {
+            "title": "Link to the Image",
+            "order": 3,
+            "type": "string"
+        }
+    }
+}

@@ -1,0 +1,52 @@
+{
+    "name": "@record-evolution/widget-overlay",
+    "description": "Webcomponent widget-overlay following open-wc recommendations",
+    "license": "MIT",
+    "author": "widget-overlay",
+    "version": "1.1.7",
+    "type": "module",
+    "main": "dist/widget-overlay.js",
+    "types": "dist/src/widget-overlay.d.ts",
+    "files": [
+        "dist",
+        "src"
+    ],
+    "scripts": {
+        "analyze": "cem analyze --litelement",
+        "start": "concurrently -k -r \"npm run watch\" \"wds\"",
+        "build": "rollup -c rollup.config.js",
+        "link": "npm run build && npm link && cd ../RESWARM/frontend && npm link @record-evolution/widget-overlay",
+        "unlink": "npm unlink --global && cd ../RESWARM/frontend && npm unlink @record-evolution/widget-overlay && npm i @record-evolution/widget-overlay",
+        "watch": "rollup -w -c rollup.config.js",
+        "types": "cat src/definition-schema.json | json2ts > src/definition-schema.d.ts",
+        "release": "npm run build && npm run types && npm version patch --tag-version-prefix='' && git push && git push --tag"
+    },
+    "dependencies": {
+        "lit": "^3.3.0"
+    },
+    "devDependencies": {
+        "@custom-elements-manifest/analyzer": "^0.10.4",
+        "@rollup/plugin-babel": "^6.0.4",
+        "@rollup/plugin-commonjs": "^28.0.5",
+        "@rollup/plugin-node-resolve": "^16.0.1",
+        "@rollup/plugin-replace": "^6.0.2",
+        "@rollup/plugin-typescript": "^12.1.2",
+        "@web/dev-server": "^0.4.6",
+        "concurrently": "^9.1.2",
+        "json-schema-to-typescript": "^15.0.4",
+        "tslib": "^2.8.1",
+        "typescript": "5.8.3"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/RecordEvolution/widget-overlay.git"
+    },
+    "keywords": [
+        "widget",
+        "image"
+    ],
+    "bugs": {
+        "url": "https://github.com/RecordEvolution/widget-overlay/issues"
+    },
+    "homepage": "https://github.com/RecordEvolution/widget-overlay#readme"
+}
