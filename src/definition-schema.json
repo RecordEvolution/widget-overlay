@@ -1,77 +1,200 @@
 {
-    "title": "Configure the Image",
+    "title": "Input Data",
     "type": "object",
     "properties": {
         "title": {
-            "title": "Title Settings",
-            "order": 1,
-            "type": "object",
-            "properties": {
-                "text": {
-                    "title": "Text",
-                    "order": 1,
-                    "type": "string"
-                },
-                "fontSize": {
-                    "title": "Font Size",
-                    "order": 2,
-                    "dataDrivenDisabled": true,
-                    "type": "string"
-                },
-                "fontWeight": {
-                    "title": "Font Weight",
-                    "order": 3,
-                    "dataDrivenDisabled": true,
-                    "type": "number"
-                },
-                "color": {
-                    "title": "Font Color",
-                    "order": 4,
-                    "type": "color",
-                    "color": true
-                },
-                "backgroundColor": {
-                    "title": "Background Color",
-                    "order": 5,
-                    "type": "color",
-                    "color": true
-                }
-            }
+            "title": "Title",
+            "type": "string",
+            "order": 1
         },
         "subTitle": {
-            "title": "Subtitle Settings",
-            "type": "object",
+            "title": "Subtitle",
+            "type": "string",
+            "order": 2
+        },
+        "image": {
+            "title": "Upload image file",
+            "description": "Upload an image to overlay data driven information on.",
+            "type": "image",
+            "order": 3
+        },
+        "overlays": {
+            "title": "Overlays",
+            "type": "array",
+            "dataDrivenDisabled": true,
             "order": 2,
-            "properties": {
-                "text": {
-                    "title": "Text",
-                    "order": 1,
-                    "type": "string"
+            "items": {
+                "layerName": {
+                    "title": "Layer Name",
+                    "type": "string",
+                    "order": 1
                 },
-                "fontSize": {
-                    "title": "Font Size",
-                    "order": 2,
+                "layerType": {
+                    "title": "Layer Type",
+                    "description": "The type of the overlay items.",
+                    "type": "string",
+                    "enum": ["progress", "text", "switch", "html"],
                     "dataDrivenDisabled": true,
-                    "type": "string"
+                    "order": 2
                 },
-                "fontWeight": {
-                    "title": "Font Weight",
+
+                "componentImplementation": {
+                    "title": "Component Code",
+                    "description": "The JavaScript code to implement the component. e.g. import 'https://jsdelivr.com/npm/my-component'",
+                    "type": "code",
+                    "condition": {
+                        "relativePath": "layerType",
+                        "showIfValueIn": ["html"]
+                    },
+                    "dataDrivenDisabled": true,
+                    "order": 6
+                },
+                "componentUsage": {
+                    "title": "Component Usage",
+                    "description": "The html code to insert at the determined position. e.g. <my-component .value={data}></my-component>",
+                    "type": "code",
+                    "condition": {
+                        "relativePath": "layerType",
+                        "showIfValueIn": ["html"]
+                    },
+                    "dataDrivenDisabled": true,
+                    "order": 5
+                },
+                "sections": {
+                    "title": "Color Sections",
+                    "description": "You can specify ranges and intermediate colors.",
+                    "type": "object",
+                    "condition": {
+                        "relativePath": "layerType",
+                        "showIfValueIn": ["progress", "text"]
+                    },
+                    "order": 5,
+                    "properties": {
+                        "sectionLimits": {
+                            "title": "Section Limits",
+                            "description": "The limits of the sections. Starting from the min value, ending with the max value.",
+                            "type": "array",
+                            "dataDrivenDisabled": true,
+                            "order": 4,
+                            "items": {
+                                "type": "number",
+                                "dataDrivenDisabled": true
+                            }
+                        },
+                        "colors": {
+                            "title": "Section colors",
+                            "description": "Progress color for each section. This Array is one shorter than the number of sections.",
+                            "type": "array",
+                            "dataDrivenDisabled": true,
+                            "items": {
+                                "type": "color",
+                                "dataDrivenDisabled": true
+                            },
+                            "order": 5
+                        }
+                    }
+                },
+                "progressStyle": {
+                    "title": "Style",
+                    "type": "object",
                     "order": 3,
-                    "dataDrivenDisabled": true,
-                    "type": "number"
+                    "condition": {
+                        "relativePath": "layerType",
+                        "showIfValueIn": ["progress"]
+                    },
+                    "properties": {
+                        "rotate": {
+                            "title": "Rotate",
+                            "description": "Rotation of the progress bar in degrees.",
+                            "type": "number",
+                            "order": 3
+                        },
+                        "width": {
+                            "title": "Width",
+                            "description": "Width of the progress bar in pixels.",
+                            "type": "number",
+                            "order": 1
+                        },
+                        "height": {
+                            "title": "Height",
+                            "description": "Height of the progress bar in pixels.",
+                            "type": "number",
+                            "order": 2
+                        },
+                        "backgroundColor": {
+                            "title": "Background Color",
+                            "type": "color",
+                            "order": 5
+                        }
+                    }
                 },
-                "color": {
-                    "title": "Font Color",
-                    "order": 4,
-                    "type": "color",
-                    "color": true
+                "textStyle": {
+                    "title": "Style",
+                    "type": "object",
+                    "order": 3,
+                    "condition": {
+                        "relativePath": "layerType",
+                        "showIfValueIn": ["text"]
+                    },
+                    "properties": {
+                        "fontWeight": {
+                            "title": "Font Weight",
+                            "description": "Font Weight is a number in the range of 100 to 900.",
+                            "type": "number",
+                            "order": 3
+                        },
+                        "fontSize": {
+                            "title": "Font Size",
+                            "description": "Font Size in pixels as it should appear on the original image size. It will be scaled together with the image.",
+                            "type": "number",
+                            "order": 2
+                        },
+                        "precision": {
+                            "title": "Precision",
+                            "description": "Number of decimal places to display.",
+                            "type": "number",
+                            "order": 4
+                        },
+                        "backgroundColor": {
+                            "title": "Background Color",
+                            "type": "color",
+                            "order": 5
+                        }
+                    }
+                },
+                "items": {
+                    "title": "Items",
+                    "description": "A list of items to overlay on the image at defined positions.",
+                    "type": "array",
+                    "order": 2,
+                    "items": {
+                        "title": {
+                            "title": "Title",
+                            "type": "string",
+                            "order": 1
+                        },
+                        "relXPos": {
+                            "title": "Relative X Position",
+                            "description": "Position of the item relative to the width of the image. i.e. 0 means left edge, 0.5 means center and 1 means right edge.",
+                            "type": "number",
+                            "order": 3
+                        },
+                        "relYPos": {
+                            "title": "Relative Y Position",
+                            "description": "Position of the item relative to the height of the image. i.e. 0 means top edge, 0.5 means center and 1 means bottom edge.",
+                            "type": "number",
+                            "order": 4
+                        },
+
+                        "data": {
+                            "title": "Data",
+                            "type": "string",
+                            "dataDrivenDisabled": false,
+                            "order": 111
+                        }
+                    }
                 }
             }
-        },
-        "imageLink": {
-            "title": "Link to the Image",
-            "order": 3,
-            "type": "string"
         }
     }
 }

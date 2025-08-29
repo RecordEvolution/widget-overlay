@@ -3,7 +3,7 @@
     "description": "Webcomponent widget-overlay following open-wc recommendations",
     "license": "MIT",
     "author": "widget-overlay",
-    "version": "1.1.7",
+    "version": "1.0.0",
     "type": "module",
     "main": "dist/widget-overlay.js",
     "types": "dist/src/widget-overlay.d.ts",
@@ -18,7 +18,6 @@
         "link": "npm run build && npm link && cd ../RESWARM/frontend && npm link @record-evolution/widget-overlay",
         "unlink": "npm unlink --global && cd ../RESWARM/frontend && npm unlink @record-evolution/widget-overlay && npm i @record-evolution/widget-overlay",
         "watch": "rollup -w -c rollup.config.js",
-        "types": "cat src/definition-schema.json | json2ts > src/definition-schema.d.ts",
         "release": "npm run build && npm run types && npm version patch --tag-version-prefix='' && git push && git push --tag"
     },
     "dependencies": {

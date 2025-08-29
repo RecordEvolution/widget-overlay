@@ -2,7 +2,7 @@
 <html lang="en-GB">
     <head>
         <meta charset="utf-8" />
-        <title>Image</title>
+        <title>Overlay</title>
         <style>
             html,
             body {
@@ -11,8 +11,8 @@
                 width: 100%;
                 height: 100%;
                 background-color: aliceblue;
-                font-family:
-                    Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+                font-family: Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+                    'Segoe UI Symbol';
                 --font-family-serif: Helvetica;
                 color: #291f42;
                 font-weight: 400;
@@ -34,22 +34,29 @@
         <script src="https://storage.googleapis.com/reswarm-images/ObjectRandomizer.js"></script>
 
         <script type="module">
-            import { html, render } from 'lit'
+            import { render } from 'lit'
+            import { html, unsafeStatic } from 'lit/static-html.js'
+            const packageJson = await fetch('../package.json').then((res) => res.json())
+            const tag = unsafeStatic(`widget-overlay-${packageJson.version}`)
             import '../dist/widget-overlay.js'
             const data = await fetch('../src/default-data.json').then((res) => res.json())
             const themeObject = await fetch('themes/vintage.json').then((res) => res.json())
             const theme = { theme_name: 'vintage', theme_object: themeObject }
             render(
                 html`
-                    <widget-overlay-1.1.5 .theme="${theme}" .inputData=${data}>
+                    <${tag} .theme="${theme}" .inputData=${data}>
                         web component is not registered. Make sure to use the tag with the correct version
                         string from the package.json
-                    </widget-overlay-1.1.5>
+                    </${tag}>
                 `,
                 document.getElementById('demo')
             )
             const widget = document.getElementById('demo').children[0]
-            const keyPathsToRandomize = ['dataseries.0.data.0.value', 'settings.title']
+            const keyPathsToRandomize = [
+                'overlays.0.items.0.data',
+                'overlays.1.items.0.data',
+                'settings.title'
+            ]
             const inter = setInterval(() => {
                 const randomizedObj = randomizeObjectValues(data, keyPathsToRandomize)
 
