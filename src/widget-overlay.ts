@@ -12,6 +12,7 @@ import {
     TextOverlay
 } from './definition-schema.js'
 import { repeat } from 'lit/directives/repeat.js'
+import './linear-progress.js'
 
 type Theme = {
     theme_name: string
@@ -92,11 +93,6 @@ export class WidgetImage extends LitElement {
             return
         }
         const raw = this.inputData.image.trim()
-
-        // Dynamically load progress bar element if needed
-        if (this.inputData?.overlays?.some((o) => o.layerType === 'progress')) {
-            import('./linear-progress.js')
-        }
 
         // Inline SVG markup (optionally starting with an XML declaration or other preamble)
         const trimmed = raw.replace(/^\uFEFF/, '').trimStart()
