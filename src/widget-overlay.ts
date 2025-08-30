@@ -3,13 +3,12 @@ import { property, query, state } from 'lit/decorators.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js'
 import {
-    HtmlOverlay,
     InputData,
     Modifier,
     Overlay,
-    OverlayItem,
+    ProgressItem,
     ProgressOverlay,
-    SwitchOverlay,
+    TextItem,
     TextOverlay
 } from './definition-schema.js'
 import { repeat } from 'lit/directives/repeat.js'
@@ -40,13 +39,6 @@ export class WidgetImage extends LitElement {
 
     @query('#base-layer')
     private baseLayer!: any
-
-    private renderMap = {
-        progress: this.renderProgress.bind(this),
-        text: this.renderText.bind(this),
-        switch: this.renderSwitch.bind(this),
-        html: this.renderHtml.bind(this)
-    }
 
     version: string = 'versionplaceholder'
 
@@ -207,12 +199,12 @@ export class WidgetImage extends LitElement {
 
     private getOverlayItemPosition(relX: number, relY: number, modifier: Modifier) {
         return {
-            left: modifier.xOffset + relX * modifier.visibleWidth,
-            top: modifier.yOffset + relY * modifier.visibleHeight
+            left: relX * modifier.visibleWidth,
+            top: relY * modifier.visibleHeight
         }
     }
 
-    renderText(_overlay: Overlay, item: OverlayItem, modifier: Modifier) {
+    renderText(_overlay: Overlay, item: TextItem, modifier: Modifier) {
         const overlay = _overlay as TextOverlay
         const pos = this.getOverlayItemPosition(item.relXPos, item.relYPos, modifier)
         if (!pos) return nothing
@@ -243,10 +235,12 @@ export class WidgetImage extends LitElement {
             padding: `${6 * modifier.scaler}px ${12 * modifier.scaler}px`
         }
 
-        return html` <div class="overlay-item" style=${styleMap(styles)}>${item.title} ${value}</div> `
+        return html`
+            <div class="overlay-item" style=${styleMap(styles)}>${item.prefix}${value}${item.suffix}</div>
+        `
     }
 
-    renderProgress(_overlay: Overlay, item: OverlayItem, modifier: Modifier) {
+    renderProgress(_overlay: Overlay, item: ProgressItem, modifier: Modifier) {
         const overlay = _overlay as ProgressOverlay
         const pos = this.getOverlayItemPosition(item.relXPos, item.relYPos, modifier)
         if (!pos) return nothing
@@ -277,23 +271,44 @@ export class WidgetImage extends LitElement {
         return html` <linear-progress .value=${percent} style=${styleMap(styles)}></linear-progress> `
     }
 
-    renderHtml(_overlay: Overlay, item: OverlayItem, modifier: Modifier) {
-        return html` <div>${item.title}: ${item.data}</div> `
-    }
-
-    renderSwitch(_overlay: Overlay, item: OverlayItem, modifier: Modifier) {
-        return html` <div>${item.title}: ${item.data}</div> `
-    }
-
     renderLayer(overlay: Overlay) {
         const modifier = this.modifier
         if (!modifier) return nothing
-        return html` ${repeat(
-            overlay.items ?? [],
-            (item) => item.title,
-            (item) => {
-                return html` ${this.renderMap[overlay.layerType](overlay, item, modifier)} `
-            }
+        const containerStyles = {
+            left: modifier.xOffset + 'px',
+            top: modifier.yOffset + 'px',
+            width: modifier.visibleWidth + 'px',
+            height: modifier.visibleHeight + 'px'
+        }
+        return html`<div
+            class="overlay"
+            style=${styleMap(containerStyles)}
+            type="${overlay.layerType}"
+            name="${overlay.layerName}"
+        >
+            ${overlay.layerType === 'text'
+                ? this.renderTextLayer(overlay as TextOverlay)
+                : this.renderProgressLayer(overlay as ProgressOverlay)}
+        </div>`
+    }
+
+    renderTextLayer(overlay: TextOverlay) {
+        const modifier = this.modifier
+        if (!modifier) return nothing
+        return html`${repeat(
+            overlay.textPins ?? [],
+            (item, idx) => idx,
+            (item) => html`${this.renderText(overlay, item, modifier)}`
+        )}`
+    }
+
+    renderProgressLayer(overlay: ProgressOverlay) {
+        const modifier = this.modifier
+        if (!modifier) return nothing
+        return html`${repeat(
+            overlay.progressPins ?? [],
+            (item, idx) => idx,
+            (item) => html`${this.renderProgress(overlay, item, modifier)}`
         )}`
     }
 
@@ -373,10 +388,6 @@ export class WidgetImage extends LitElement {
 
         .overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
             pointer-events: none;
         }
 
@@ -416,11 +427,7 @@ export class WidgetImage extends LitElement {
                     ${repeat(
                         this.inputData?.overlays ?? [],
                         (o) => o.layerName,
-                        (o) => html`
-                            <div class="overlay" type="${o.layerType}" name="${o.layerName}">
-                                ${this.renderLayer(o)}
-                            </div>
-                        `
+                        (o) => html` ${this.renderLayer(o)} `
                     )}
                 </div>
             </div>

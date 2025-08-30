@@ -5,21 +5,28 @@ export interface InputData {
     overlays?: Overlay[]
 }
 
-export type Overlay = ProgressOverlay | TextOverlay | SwitchOverlay | HtmlOverlay
+export type Overlay = ProgressOverlay | TextOverlay
 
 interface BaseOverlay {
     layerName: string
-    layerType: 'progress' | 'text' | 'switch' | 'html'
-    items?: OverlayItem[]
+    layerType: 'progress' | 'text'
+    textPins?: TextItem[]
+    progressPins?: ProgressItem[]
 }
 
-interface OverlayItem {
-    title: string
+interface TextItem {
+    prefix: string
+    suffix: string
     relXPos: number // 0 = left, 0.5 = center, 1 = right
     relYPos: number // 0 = top, 0.5 = center, 1 = bottom
     data: string
 }
 
+interface ProgressItem {
+    relXPos: number // 0 = left, 0.5 = center, 1 = right
+    relYPos: number // 0 = top, 0.5 = center, 1 = bottom
+    data: string
+}
 export interface ProgressOverlay extends BaseOverlay {
     layerType: 'progress'
     progressStyle?: {
@@ -46,16 +53,6 @@ export interface TextOverlay extends BaseOverlay {
         sectionLimits: number[]
         colors: string[]
     }
-}
-
-export interface SwitchOverlay extends BaseOverlay {
-    layerType: 'switch'
-}
-
-export interface HtmlOverlay extends BaseOverlay {
-    layerType: 'html'
-    componentImplementation?: string // JS import code
-    componentUsage?: string // HTML snippet
 }
 
 export type Modifier = {

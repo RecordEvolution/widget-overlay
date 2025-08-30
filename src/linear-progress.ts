@@ -15,7 +15,8 @@ export class LinearProgress extends LitElement {
             background-color: var(--progress-background, #e0e0e0);
             border-radius: var(--progress-radius, 4px);
             overflow: hidden;
-            position: relative;
+            position: absolute;
+            border: 0.5px solid var(--progress-border-color, #ccc);
         }
 
         .bar {

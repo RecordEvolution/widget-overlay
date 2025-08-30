@@ -15,6 +15,7 @@
         "image": {
             "title": "Upload image file",
             "description": "Upload an image to overlay data driven information on.",
+            "dataDrivenDisabled": true,
             "type": "image",
             "order": 3
         },
@@ -22,175 +23,206 @@
             "title": "Overlays",
             "type": "array",
             "dataDrivenDisabled": true,
-            "order": 2,
+            "order": 4,
             "items": {
-                "layerName": {
-                    "title": "Layer Name",
-                    "type": "string",
-                    "order": 1
-                },
-                "layerType": {
-                    "title": "Layer Type",
-                    "description": "The type of the overlay items.",
-                    "type": "string",
-                    "enum": ["progress", "text", "switch", "html"],
-                    "dataDrivenDisabled": true,
-                    "order": 2
-                },
-
-                "componentImplementation": {
-                    "title": "Component Code",
-                    "description": "The JavaScript code to implement the component. e.g. import 'https://jsdelivr.com/npm/my-component'",
-                    "type": "code",
-                    "condition": {
-                        "relativePath": "layerType",
-                        "showIfValueIn": ["html"]
+                "type": "object",
+                "properties": {
+                    "layerName": {
+                        "title": "Layer Name",
+                        "type": "string",
+                        "order": 1
                     },
-                    "dataDrivenDisabled": true,
-                    "order": 6
-                },
-                "componentUsage": {
-                    "title": "Component Usage",
-                    "description": "The html code to insert at the determined position. e.g. <my-component .value={data}></my-component>",
-                    "type": "code",
-                    "condition": {
-                        "relativePath": "layerType",
-                        "showIfValueIn": ["html"]
+                    "layerType": {
+                        "title": "Layer Type",
+                        "description": "The type of the overlay items.",
+                        "type": "string",
+                        "enum": ["progress", "text"],
+                        "dataDrivenDisabled": true,
+                        "order": 2
                     },
-                    "dataDrivenDisabled": true,
-                    "order": 5
-                },
-                "sections": {
-                    "title": "Color Sections",
-                    "description": "You can specify ranges and intermediate colors.",
-                    "type": "object",
-                    "condition": {
-                        "relativePath": "layerType",
-                        "showIfValueIn": ["progress", "text"]
-                    },
-                    "order": 5,
-                    "properties": {
-                        "sectionLimits": {
-                            "title": "Section Limits",
-                            "description": "The limits of the sections. Starting from the min value, ending with the max value.",
-                            "type": "array",
-                            "dataDrivenDisabled": true,
-                            "order": 4,
-                            "items": {
-                                "type": "number",
-                                "dataDrivenDisabled": true
-                            }
+                    "sections": {
+                        "title": "Color Sections",
+                        "description": "You can specify ranges and intermediate colors.",
+                        "type": "object",
+                        "condition": {
+                            "relativePath": "../layerType",
+                            "showIfValueIn": ["progress", "text"]
                         },
-                        "colors": {
-                            "title": "Section colors",
-                            "description": "Progress color for each section. This Array is one shorter than the number of sections.",
-                            "type": "array",
-                            "dataDrivenDisabled": true,
-                            "items": {
-                                "type": "color",
-                                "dataDrivenDisabled": true
+                        "order": 5,
+                        "properties": {
+                            "sectionLimits": {
+                                "title": "Section Limits",
+                                "description": "The limits of the sections. Starting from the min value, ending with the max value.",
+                                "type": "array",
+                                "dataDrivenDisabled": true,
+                                "order": 4,
+                                "items": {
+                                    "type": "number",
+                                    "dataDrivenDisabled": true
+                                }
                             },
-                            "order": 5
+                            "colors": {
+                                "title": "Section colors",
+                                "description": "Progress color for each section. This Array is one shorter than the number of sections.",
+                                "type": "array",
+                                "dataDrivenDisabled": true,
+                                "items": {
+                                    "type": "color",
+                                    "dataDrivenDisabled": true
+                                },
+                                "order": 5
+                            }
                         }
-                    }
-                },
-                "progressStyle": {
-                    "title": "Style",
-                    "type": "object",
-                    "order": 3,
-                    "condition": {
-                        "relativePath": "layerType",
-                        "showIfValueIn": ["progress"]
                     },
-                    "properties": {
-                        "rotate": {
-                            "title": "Rotate",
-                            "description": "Rotation of the progress bar in degrees.",
-                            "type": "number",
-                            "order": 3
+                    "progressStyle": {
+                        "title": "Style",
+                        "type": "object",
+                        "order": 3,
+                        "condition": {
+                            "relativePath": "../layerType",
+                            "showIfValueIn": ["progress"]
                         },
-                        "width": {
-                            "title": "Width",
-                            "description": "Width of the progress bar in pixels.",
-                            "type": "number",
-                            "order": 1
-                        },
-                        "height": {
-                            "title": "Height",
-                            "description": "Height of the progress bar in pixels.",
-                            "type": "number",
-                            "order": 2
-                        },
-                        "backgroundColor": {
-                            "title": "Background Color",
-                            "type": "color",
-                            "order": 5
+                        "properties": {
+                            "rotate": {
+                                "title": "Rotate",
+                                "description": "Rotation of the progress bar in degrees.",
+                                "type": "number",
+                                "order": 3
+                            },
+                            "width": {
+                                "title": "Width",
+                                "description": "Width of the progress bar in pixels.",
+                                "type": "number",
+                                "order": 1
+                            },
+                            "height": {
+                                "title": "Height",
+                                "description": "Height of the progress bar in pixels.",
+                                "type": "number",
+                                "order": 2
+                            },
+                            "backgroundColor": {
+                                "title": "Background Color",
+                                "type": "color",
+                                "order": 5
+                            }
                         }
-                    }
-                },
-                "textStyle": {
-                    "title": "Style",
-                    "type": "object",
-                    "order": 3,
-                    "condition": {
-                        "relativePath": "layerType",
-                        "showIfValueIn": ["text"]
                     },
-                    "properties": {
-                        "fontWeight": {
-                            "title": "Font Weight",
-                            "description": "Font Weight is a number in the range of 100 to 900.",
-                            "type": "number",
-                            "order": 3
+                    "textStyle": {
+                        "title": "Style",
+                        "type": "object",
+                        "order": 3,
+                        "condition": {
+                            "relativePath": "../layerType",
+                            "showIfValueIn": ["text"]
                         },
-                        "fontSize": {
-                            "title": "Font Size",
-                            "description": "Font Size in pixels as it should appear on the original image size. It will be scaled together with the image.",
-                            "type": "number",
-                            "order": 2
-                        },
-                        "precision": {
-                            "title": "Precision",
-                            "description": "Number of decimal places to display.",
-                            "type": "number",
-                            "order": 4
-                        },
-                        "backgroundColor": {
-                            "title": "Background Color",
-                            "type": "color",
-                            "order": 5
+                        "properties": {
+                            "fontWeight": {
+                                "title": "Font Weight",
+                                "description": "Font Weight is a number in the range of 100 to 900.",
+                                "type": "number",
+                                "order": 3
+                            },
+                            "fontSize": {
+                                "title": "Font Size",
+                                "description": "Font Size in pixels as it should appear on the original image size. It will be scaled together with the image.",
+                                "type": "number",
+                                "order": 2
+                            },
+                            "precision": {
+                                "title": "Precision",
+                                "description": "Number of decimal places to display.",
+                                "type": "number",
+                                "order": 4
+                            },
+                            "backgroundColor": {
+                                "title": "Background Color",
+                                "type": "color",
+                                "order": 5
+                            }
                         }
-                    }
-                },
-                "items": {
-                    "title": "Items",
-                    "description": "A list of items to overlay on the image at defined positions.",
-                    "type": "array",
-                    "order": 2,
-                    "items": {
-                        "title": {
-                            "title": "Title",
-                            "type": "string",
-                            "order": 1
+                    },
+                    "progressPins": {
+                        "title": "Progress Pins",
+                        "description": "A list of progress pins to overlay on the image at defined positions.",
+                        "type": "array",
+                        "condition": {
+                            "relativePath": "../layerType",
+                            "showIfValueIn": ["progress"]
                         },
-                        "relXPos": {
-                            "title": "Relative X Position",
-                            "description": "Position of the item relative to the width of the image. i.e. 0 means left edge, 0.5 means center and 1 means right edge.",
-                            "type": "number",
-                            "order": 3
+                        "order": 2,
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "label": {
+                                    "title": "Label",
+                                    "type": "string",
+                                    "order": 1
+                                },
+                                "relXPos": {
+                                    "title": "Relative X Position",
+                                    "description": "Position of the item relative to the width of the image. i.e. 0 means left edge, 0.5 means center and 1 means right edge.",
+                                    "type": "number",
+                                    "order": 3
+                                },
+                                "relYPos": {
+                                    "title": "Relative Y Position",
+                                    "description": "Position of the item relative to the height of the image. i.e. 0 means top edge, 0.5 means center and 1 means bottom edge.",
+                                    "type": "number",
+                                    "order": 4
+                                },
+                                "data": {
+                                    "title": "Data",
+                                    "description": "Value to display for the progress pin. Setup the scale in the sections settings.",
+                                    "type": "number",
+                                    "order": 111
+                                }
+                            }
+                        }
+                    },
+                    "textPins": {
+                        "title": "Text Pins",
+                        "description": "A list of text pins to overlay on the image at defined positions.",
+                        "type": "array",
+                        "condition": {
+                            "relativePath": "../layerType",
+                            "showIfValueIn": ["text"]
                         },
-                        "relYPos": {
-                            "title": "Relative Y Position",
-                            "description": "Position of the item relative to the height of the image. i.e. 0 means top edge, 0.5 means center and 1 means bottom edge.",
-                            "type": "number",
-                            "order": 4
-                        },
-
-                        "data": {
-                            "title": "Data",
-                            "type": "string",
-                            "dataDrivenDisabled": false,
-                            "order": 111
+                        "order": 2,
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "prefix": {
+                                    "title": "Prefix",
+                                    "description": "Text to display before the data value.",
+                                    "type": "string",
+                                    "order": 1
+                                },
+                                "suffix": {
+                                    "title": "Suffix",
+                                    "description": "Text to display after the data value.",
+                                    "type": "string",
+                                    "order": 2
+                                },
+                                "relXPos": {
+                                    "title": "Relative X Position",
+                                    "description": "Position of the item relative to the width of the image. i.e. 0 means left edge, 0.5 means center and 1 means right edge.",
+                                    "type": "number",
+                                    "order": 3
+                                },
+                                "relYPos": {
+                                    "title": "Relative Y Position",
+                                    "description": "Position of the item relative to the height of the image. i.e. 0 means top edge, 0.5 means center and 1 means bottom edge.",
+                                    "type": "number",
+                                    "order": 4
+                                },
+                                "data": {
+                                    "title": "Data",
+                                    "description": "Value to display for the text pin.",
+                                    "type": "string",
+                                    "order": 111
+                                }
+                            }
                         }
                     }
                 }
