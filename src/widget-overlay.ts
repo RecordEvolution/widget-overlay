@@ -94,6 +94,11 @@ export class WidgetImage extends LitElement {
         }
         const raw = this.inputData.image.trim()
 
+        // Dynamically load progress bar element if needed
+        // if (this.inputData?.overlays?.some((o) => o.layerType === 'progress')) {
+        //     import('./linear-progress.js')
+        // }
+
         // Inline SVG markup (optionally starting with an XML declaration or other preamble)
         const trimmed = raw.replace(/^\uFEFF/, '').trimStart()
 

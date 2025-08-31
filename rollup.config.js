@@ -9,14 +9,15 @@ const npmPackage = JSON.parse(readFileSync('./package.json'))
 export default {
     // if you use createSpaConfig, you can use your index.html as entrypoint,
     // any <script type="module"> inside will be bundled by rollup
-    input: ['./src/widget-overlay.ts', './src/linear-progress.ts'],
+    input: ['./src/widget-overlay.ts'],
     treeshake: {
-        moduleSideEffects: false
+        // Keep all modules' side effects (e.g. customElements.define in web components)
+        moduleSideEffects: true
     },
     output: {
         dir: './dist',
         sourcemap: true,
-        name: 'widget-image_bundle',
+        name: 'widget-overlay_bundle',
         banner: `/* @license Copyright (c) 2023 Record Evolution GmbH. All rights reserved.*/`,
         format: 'esm'
     },
