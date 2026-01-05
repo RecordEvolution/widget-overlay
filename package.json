@@ -3,7 +3,7 @@
     "description": "Webcomponent widget-overlay following open-wc recommendations",
     "license": "MIT",
     "author": "widget-overlay",
-    "version": "1.0.7",
+    "version": "1.0.8",
     "type": "module",
     "main": "dist/widget-overlay.js",
     "types": "dist/src/widget-overlay.d.ts",
