@@ -26,9 +26,8 @@ export default defineConfig({
         },
         sourcemap: true,
         rollupOptions: {
-            external: ['lit', 'lit/decorators.js', 'lit/static-html.js'],
             output: {
-                banner: '/* @license Copyright (c) 2023 Record Evolution GmbH. All rights reserved.*/'
+                banner: '/* @license Copyright (c) 2025 Record Evolution GmbH. All rights reserved.*/'
             }
         }
     }
