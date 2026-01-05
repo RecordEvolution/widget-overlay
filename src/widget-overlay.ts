@@ -319,6 +319,7 @@ export class WidgetImage extends LitElement {
             font-family: sans-serif;
             box-sizing: border-box;
             margin: auto;
+            container-type: size;
         }
 
         .paging:not([active]) {
@@ -330,7 +331,7 @@ export class WidgetImage extends LitElement {
             flex-direction: column;
             height: 100%;
             width: 100%;
-            padding: 2%;
+            padding: 2cqh 2cqw;
             box-sizing: border-box;
         }
 
