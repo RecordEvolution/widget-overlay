@@ -36,11 +36,11 @@
         <script type="module">
             import { render } from 'lit'
             import { html, unsafeStatic } from 'lit/static-html.js'
-            const packageJson = await fetch('../package.json').then((res) => res.json())
+            import packageJson from '../package.json'
             const tag = unsafeStatic(`widget-overlay-${packageJson.version}`)
-            import '../dist/widget-overlay.js'
-            const data = await fetch('../src/default-data.json').then((res) => res.json())
-            const themeObject = await fetch('themes/light.json').then((res) => res.json())
+            import '../src/widget-overlay.ts'
+            import data from '../src/default-data.json'
+            import themeObject from './themes/light.json'
             const theme = { theme_name: 'light', theme_object: themeObject }
             render(
                 html`
@@ -52,11 +52,7 @@
                 document.getElementById('demo')
             )
             const widget = document.getElementById('demo').children[0]
-            const keyPathsToRandomize = [
-                'overlays.0.items.0.data',
-                'overlays.1.items.0.data',
-                'settings.title'
-            ]
+            const keyPathsToRandomize = ['overlays.0.items.0.data', 'overlays.1.items.0.data', 'title']
             const inter = setInterval(() => {
                 const randomizedObj = randomizeObjectValues(data, keyPathsToRandomize)
 

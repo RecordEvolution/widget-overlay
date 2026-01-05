@@ -1,8 +1,9 @@
 import { LitElement, html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 
+export
 @customElement('linear-progress')
-export class LinearProgress extends LitElement {
+class LinearProgress extends LitElement {
     /** Progress value between 0 and 1, or undefined for indeterminate */
     @property({ type: Number })
     value?: number

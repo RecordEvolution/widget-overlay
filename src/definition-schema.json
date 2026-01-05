@@ -12,12 +12,19 @@
             "type": "string",
             "order": 2
         },
+        "stretchToFit": {
+            "title": "Stretch to fill",
+            "type": "boolean",
+            "description": "If enabled, the image will stretch to fill the entire widget area. If disabled, the image will maintain its aspect ratio.",
+            "dataDrivenDisabled": true,
+            "order": 3
+        },
         "image": {
             "title": "Upload image file",
             "description": "Upload an image to overlay data driven information on.",
             "dataDrivenDisabled": true,
             "type": "image",
-            "order": 3
+            "order": 4
         },
         "overlays": {
             "title": "Overlays",

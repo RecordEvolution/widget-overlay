@@ -218,7 +218,7 @@ export class WidgetImage extends LitElement {
             if (typeof precision === 'number' && precision >= 0) {
                 value = numericValue.toFixed(precision)
                 const sectionIndex =
-                    overlay.sections?.sectionLimits.findIndex((limit) => numericValue <= limit) ?? -2
+                    overlay.sections?.sectionLimits.findIndex((limit: number) => numericValue <= limit) ?? -2
                 color = (sectionIndex >= 1 ? overlay.sections?.colors[sectionIndex - 1] : '#333') ?? '#333'
             }
         }
@@ -247,7 +247,7 @@ export class WidgetImage extends LitElement {
         if (!pos) return nothing
 
         const sectionIndex =
-            overlay.sections?.sectionLimits.findIndex((limit) => Number(item.data) <= limit) ?? -2
+            overlay.sections?.sectionLimits.findIndex((limit: number) => Number(item.data) <= limit) ?? -2
         const sectionColor = sectionIndex >= 1 ? overlay.sections?.colors[sectionIndex - 1] : undefined
         const styles = {
             '--progress-color': sectionColor ?? '#333',
@@ -330,7 +330,7 @@ export class WidgetImage extends LitElement {
             flex-direction: column;
             height: 100%;
             width: 100%;
-            padding: 16px;
+            padding: 2%;
             box-sizing: border-box;
         }
 
@@ -375,7 +375,6 @@ export class WidgetImage extends LitElement {
         img {
             width: 100%; /* Set the width of the container */
             height: 100%;
-            object-fit: contain;
         }
         .no-data {
             font-size: 20px;
@@ -423,6 +422,7 @@ export class WidgetImage extends LitElement {
                                 @load="${this.getModifier}"
                                 src="${this.previewUrl}"
                                 alt="Image Widget"
+                                style="object-fit: ${this.inputData?.stretchToFit ? 'fill' : 'contain'}"
                             />`
                           : ''}
                     ${repeat(

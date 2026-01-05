@@ -1,6 +1,7 @@
 export interface InputData {
     title: string
     subTitle?: string
+    stretchToFit?: boolean
     image?: string // base64 encoded image string or URL
     overlays?: Overlay[]
 }

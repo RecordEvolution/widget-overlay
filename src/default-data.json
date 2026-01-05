@@ -1,6 +1,7 @@
 {
     "title": "Image Info Overlay Example",
     "subTitle": "Display information on images (jpg, png, svg)",
+    "stretchToFit": true,
     "image": "https://res.cloudinary.com/dk8bhmsdz/image/upload/v1756495027/floorplan2_k2qu3w.png",
     "overlays": [
         {
