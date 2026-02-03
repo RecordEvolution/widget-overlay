@@ -4,6 +4,10 @@
     "license": "MIT",
     "author": "widget-overlay",
     "version": "1.0.9",
+    "engines": {
+        "node": ">=24.9.0",
+        "npm": ">=10.0.2"
+    },
     "type": "module",
     "main": "dist/widget-overlay.js",
     "types": "dist/src/widget-overlay.d.ts",

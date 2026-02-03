@@ -1,33 +1,37 @@
 {
     "title": "Input Data",
+    "description": "An image overlay widget for displaying data-driven annotations on top of background images. Use this widget to create visual dashboards that combine a schematic, floor plan, process diagram, or photo with real-time data overlays. Supports two overlay types: progress bars showing fill levels and text pins displaying values. Overlays are positioned using relative coordinates (0-1) so they scale with the image. Ideal for factory floor visualizations, building management systems, process monitoring, or any scenario where data should be shown in spatial context on a reference image.",
     "type": "object",
     "properties": {
         "title": {
             "title": "Title",
+            "description": "The main heading displayed above the overlay image. Use to describe what the visualization represents.",
             "type": "string",
             "order": 1
         },
         "subTitle": {
             "title": "Subtitle",
+            "description": "Secondary text displayed below the title. Use for additional context like location, update frequency, or data source.",
             "type": "string",
             "order": 2
         },
         "stretchToFit": {
             "title": "Stretch to fill",
             "type": "boolean",
-            "description": "If enabled, the image will stretch to fill the entire widget area. If disabled, the image will maintain its aspect ratio.",
+            "description": "When enabled, the background image stretches to fill the entire widget area, potentially distorting aspect ratio. When disabled, the image maintains its original aspect ratio with letterboxing if needed.",
             "dataDrivenDisabled": true,
             "order": 3
         },
         "image": {
             "title": "Upload image file",
-            "description": "Upload an image to overlay data driven information on.",
+            "description": "Upload the background image (PNG, JPG, SVG) that will have data overlays positioned on it. This could be a floor plan, schematic, process diagram, or any reference image.",
             "dataDrivenDisabled": true,
             "type": "image",
             "order": 4
         },
         "overlays": {
             "title": "Overlays",
+            "description": "Array of overlay layers. Each layer defines a type of overlay (progress bars or text) with its own styling and data pins positioned on the image.",
             "type": "array",
             "dataDrivenDisabled": true,
             "order": 4,
@@ -36,12 +40,13 @@
                 "properties": {
                     "layerName": {
                         "title": "Layer Name",
+                        "description": "Identifier for this overlay layer. Used for organization when multiple layers exist.",
                         "type": "string",
                         "order": 1
                     },
                     "layerType": {
                         "title": "Layer Type",
-                        "description": "The type of the overlay items.",
+                        "description": "Type of overlay elements: 'progress' for fill-level bars (tanks, batteries, progress), 'text' for numeric/text value displays.",
                         "type": "string",
                         "enum": ["progress", "text"],
                         "dataDrivenDisabled": true,
@@ -49,7 +54,7 @@
                     },
                     "sections": {
                         "title": "Color Sections",
-                        "description": "You can specify ranges and intermediate colors.",
+                        "description": "Define value ranges and their corresponding colors. Used for both progress bar fill colors and text value coloring based on thresholds.",
                         "type": "object",
                         "condition": {
                             "relativePath": "../layerType",
@@ -59,7 +64,7 @@
                         "properties": {
                             "sectionLimits": {
                                 "title": "Section Limits",
-                                "description": "The limits of the sections. Starting from the min value, ending with the max value.",
+                                "description": "Array of boundary values defining color transitions. First value is the minimum, last is the maximum. Values between define where colors change (e.g., [0, 30, 70, 100] creates 3 zones).",
                                 "type": "array",
                                 "dataDrivenDisabled": true,
                                 "order": 4,
@@ -70,7 +75,7 @@
                             },
                             "colors": {
                                 "title": "Section colors",
-                                "description": "Progress color for each section. This Array is one shorter than the number of sections.",
+                                "description": "Array of colors for each section between the limits. Should have one fewer color than section limits (e.g., 3 colors for 4 limits). Common pattern: green→yellow→red for status indication.",
                                 "type": "array",
                                 "dataDrivenDisabled": true,
                                 "items": {
@@ -83,6 +88,7 @@
                     },
                     "progressStyle": {
                         "title": "Style",
+                        "description": "Visual styling for progress bar overlays.",
                         "type": "object",
                         "order": 3,
                         "condition": {
@@ -92,24 +98,25 @@
                         "properties": {
                             "rotate": {
                                 "title": "Rotate",
-                                "description": "Rotation of the progress bar in degrees.",
+                                "description": "Rotation angle in degrees. Use 0 for horizontal bars, 90 or -90 for vertical bars, or any angle for diagonal orientation.",
                                 "type": "number",
                                 "order": 3
                             },
                             "width": {
                                 "title": "Width",
-                                "description": "Width of the progress bar in pixels.",
+                                "description": "Width of the progress bar in pixels at original image scale. Scales proportionally when the image resizes.",
                                 "type": "number",
                                 "order": 1
                             },
                             "height": {
                                 "title": "Height",
-                                "description": "Height of the progress bar in pixels.",
+                                "description": "Height of the progress bar in pixels at original image scale. Scales proportionally when the image resizes.",
                                 "type": "number",
                                 "order": 2
                             },
                             "backgroundColor": {
                                 "title": "Background Color",
+                                "description": "Color of the unfilled portion of the progress bar. Use a neutral or faded color to contrast with the fill.",
                                 "type": "color",
                                 "order": 5
                             }
@@ -117,6 +124,7 @@
                     },
                     "textStyle": {
                         "title": "Style",
+                        "description": "Visual styling for text pin overlays.",
                         "type": "object",
                         "order": 3,
                         "condition": {
@@ -126,24 +134,25 @@
                         "properties": {
                             "fontWeight": {
                                 "title": "Font Weight",
-                                "description": "Font Weight is a number in the range of 100 to 900.",
+                                "description": "Font weight from 100 (thin) to 900 (black). Use 400 for normal, 700 for bold.",
                                 "type": "number",
                                 "order": 3
                             },
                             "fontSize": {
                                 "title": "Font Size",
-                                "description": "Font Size in pixels as it should appear on the original image size. It will be scaled together with the image.",
+                                "description": "Font size in pixels as it appears on the original image size. The text scales proportionally when the image resizes.",
                                 "type": "number",
                                 "order": 2
                             },
                             "precision": {
                                 "title": "Precision",
-                                "description": "Number of decimal places to display.",
+                                "description": "Number of decimal places to display for numeric values. Use 0 for integers, 1-2 for measurements.",
                                 "type": "number",
                                 "order": 4
                             },
                             "backgroundColor": {
                                 "title": "Background Color",
+                                "description": "Background color behind the text for improved readability on busy images. Leave empty for transparent background.",
                                 "type": "color",
                                 "order": 5
                             }
@@ -151,7 +160,7 @@
                     },
                     "progressPins": {
                         "title": "Progress Pins",
-                        "description": "A list of progress pins to overlay on the image at defined positions.",
+                        "description": "Array of progress bar instances positioned on the image. Each pin represents one progress indicator at a specific location.",
                         "type": "array",
                         "condition": {
                             "relativePath": "../layerType",
@@ -163,24 +172,25 @@
                             "properties": {
                                 "label": {
                                     "title": "Label",
+                                    "description": "Identifier label for this progress bar, displayed in tooltips or alongside the bar.",
                                     "type": "string",
                                     "order": 1
                                 },
                                 "relXPos": {
                                     "title": "Relative X Position",
-                                    "description": "Position of the item relative to the width of the image. i.e. 0 means left edge, 0.5 means center and 1 means right edge.",
+                                    "description": "Horizontal position as a fraction of image width: 0 = left edge, 0.5 = center, 1 = right edge. Position the center of the progress bar.",
                                     "type": "number",
                                     "order": 3
                                 },
                                 "relYPos": {
                                     "title": "Relative Y Position",
-                                    "description": "Position of the item relative to the height of the image. i.e. 0 means top edge, 0.5 means center and 1 means bottom edge.",
+                                    "description": "Vertical position as a fraction of image height: 0 = top edge, 0.5 = center, 1 = bottom edge. Position the center of the progress bar.",
                                     "type": "number",
                                     "order": 4
                                 },
                                 "data": {
                                     "title": "Data",
-                                    "description": "Value to display for the progress pin. Setup the scale in the sections settings.",
+                                    "description": "The current value to display as fill level. Should be within the section limits range defined in the layer's Color Sections. Bind to a data column for real-time updates.",
                                     "type": "number",
                                     "order": 111
                                 }
@@ -189,7 +199,7 @@
                     },
                     "textPins": {
                         "title": "Text Pins",
-                        "description": "A list of text pins to overlay on the image at defined positions.",
+                        "description": "Array of text value instances positioned on the image. Each pin displays a value with optional prefix and suffix at a specific location.",
                         "type": "array",
                         "condition": {
                             "relativePath": "../layerType",
@@ -201,31 +211,31 @@
                             "properties": {
                                 "prefix": {
                                     "title": "Prefix",
-                                    "description": "Text to display before the data value.",
+                                    "description": "Text displayed before the data value (e.g., 'Temp: ', 'Level: '). Include trailing space if needed.",
                                     "type": "string",
                                     "order": 1
                                 },
                                 "suffix": {
                                     "title": "Suffix",
-                                    "description": "Text to display after the data value.",
+                                    "description": "Text displayed after the data value (e.g., '°C', '%', ' PSI'). Include leading space if needed.",
                                     "type": "string",
                                     "order": 2
                                 },
                                 "relXPos": {
                                     "title": "Relative X Position",
-                                    "description": "Position of the item relative to the width of the image. i.e. 0 means left edge, 0.5 means center and 1 means right edge.",
+                                    "description": "Horizontal position as a fraction of image width: 0 = left edge, 0.5 = center, 1 = right edge.",
                                     "type": "number",
                                     "order": 3
                                 },
                                 "relYPos": {
                                     "title": "Relative Y Position",
-                                    "description": "Position of the item relative to the height of the image. i.e. 0 means top edge, 0.5 means center and 1 means bottom edge.",
+                                    "description": "Vertical position as a fraction of image height: 0 = top edge, 0.5 = center, 1 = bottom edge.",
                                     "type": "number",
                                     "order": 4
                                 },
                                 "data": {
                                     "title": "Data",
-                                    "description": "Value to display for the text pin.",
+                                    "description": "The value to display at this position. Can be numeric (formatted per precision setting) or text. Bind to a data column for real-time updates.",
                                     "type": "string",
                                     "order": 111
                                 }

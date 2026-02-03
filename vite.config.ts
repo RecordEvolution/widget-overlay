@@ -10,7 +10,7 @@ export default defineConfig({
         port: 8000
     },
     resolve: {
-        conditions: ['browser', 'development']
+        conditions: ['browser']
     },
     plugins: [
         replace({
