@@ -3,7 +3,7 @@
     "description": "Webcomponent widget-overlay following open-wc recommendations",
     "license": "MIT",
     "author": "widget-overlay",
-    "version": "1.0.9",
+    "version": "1.0.10",
     "engines": {
         "node": ">=24.9.0",
         "npm": ">=10.0.2"
