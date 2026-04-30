@@ -14,11 +14,12 @@
     "files": [
         "dist",
         "src",
-        "thumbnail.png"
+        "thumbnail.png",
+        "thumbnail.webp"
     ],
     "scripts": {
         "analyze": "cem analyze --litelement",
-        "start": "vite",
+        "start": "vite build --watch & vite",
         "build": "vite build",
         "watch": "vite build --watch",
         "link": "npm run build && npm link && cd ../RESWARM/frontend && npm link @record-evolution/widget-overlay",
