@@ -1,6 +1,20 @@
 {
-    "title": "Input Data",
+    "title": "Image Overlay Configuration",
     "description": "An image overlay widget for displaying data-driven annotations on top of background images. Use this widget to create visual dashboards that combine a schematic, floor plan, process diagram, or photo with real-time data overlays. Supports two overlay types: progress bars showing fill levels and text pins displaying values. Overlays are positioned using relative coordinates (0-1) so they scale with the image. Ideal for factory floor visualizations, building management systems, process monitoring, or any scenario where data should be shown in spatial context on a reference image.",
+    "aiSelection": {
+        "dataShape": "A background image plus pins placed on it by relative coordinates (relXPos / relYPos in 0-1, so they scale with the image). Each pin binds one live value, drawn either as a progress bar (progressPins) or as text (textPins).",
+        "useWhen": [
+            "Values only make sense in their spatial context — tank levels on a process diagram, room temperatures on a floor plan, station output on a line layout.",
+            "A photo or schematic already exists and should be annotated with live readings.",
+            "Fill levels should be shown in place as progress bars against a picture of the plant."
+        ],
+        "notFor": [
+            "Positions on the earth rather than on a picture — use widget-mapbox.",
+            "A standard industrial component (tank, pump, valve, meter) that the platform can already draw and animate — use widget-scada, which needs no background image.",
+            "An image with no data on it — use widget-image.",
+            "Values compared against each other rather than placed in space — use widget-linechart, widget-value or widget-gauge."
+        ]
+    },
     "type": "object",
     "properties": {
         "title": {

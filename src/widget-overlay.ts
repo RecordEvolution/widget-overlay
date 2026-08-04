@@ -2,17 +2,28 @@ import { html, css, LitElement, PropertyValues, nothing } from 'lit'
 import { property, query, state } from 'lit/decorators.js'
 import { styleMap } from 'lit/directives/style-map.js'
 import { unsafeSVG } from 'lit/directives/unsafe-svg.js'
-import {
-    InputData,
-    Modifier,
-    Overlay,
-    ProgressItem,
-    ProgressOverlay,
-    TextItem,
-    TextOverlay
-} from './definition-schema.js'
+import { ImageOverlayConfiguration, Overlays } from './definition-schema.js'
 import { repeat } from 'lit/directives/repeat.js'
 import './linear-progress.js'
+
+// Views over the generated schema types. json-schema-to-typescript names the
+// layer array `Overlays` and gives its pin arrays no names of their own, so the
+// per-layer and per-pin types the component works with are derived here.
+type Overlay = Overlays[number]
+type TextOverlay = Overlay
+type ProgressOverlay = Overlay
+type TextItem = NonNullable<Overlay['textPins']>[number]
+type ProgressItem = NonNullable<Overlay['progressPins']>[number]
+
+// Not schema data: the scaling factor and letterbox offsets of the background
+// image inside the widget, recomputed by getModifier() on every resize.
+type Modifier = {
+    scaler: number
+    xOffset: number
+    yOffset: number
+    visibleWidth: number
+    visibleHeight: number
+}
 
 type Theme = {
     theme_name: string
@@ -20,7 +31,7 @@ type Theme = {
 }
 export class WidgetImage extends LitElement {
     @property({ type: Object })
-    inputData?: InputData
+    inputData?: ImageOverlayConfiguration
 
     @property({ type: Object })
     theme?: Theme

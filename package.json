@@ -24,7 +24,7 @@
         "watch": "vite build --watch",
         "link": "npm run build && npm link && cd ../RESWARM/frontend && npm link @record-evolution/widget-overlay",
         "unlink": "npm unlink --global && cd ../RESWARM/frontend && npm unlink @record-evolution/widget-overlay && npm i @record-evolution/widget-overlay",
-        "types": "xxxcat src/definition-schema.json | json2ts --style.tabWidth=4 > src/definition-schema.d.ts",
+        "types": "cat src/definition-schema.json | json2ts --style.tabWidth=4 > src/definition-schema.d.ts",
         "release": "npm run build && npm version patch --tag-version-prefix='' && git push && git push --tag && npm run build"
     },
     "dependencies": {
