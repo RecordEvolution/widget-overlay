@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run build` - Vite library build (ES module) emitting `dist/widget-overlay.js`.
 - `npm run watch` - `vite build --watch` only.
 - `npm run analyze` - Generate Custom Elements Manifest (`cem analyze --litelement`).
-- `npm run release` - Builds, bumps patch version (no `v` prefix), pushes commits + tags. The pushed tag triggers `.github/workflows/build-publish.yml` which publishes to npm.
+- `npm run release` — `npm version patch`: preflight guards (on `main`, clean tree, not behind `origin/main`, generated files current, build passes), then commit, bare-semver tag, `git push --follow-tags`, then waits on the CI run and fails if the npm publish fails. `npm run release:minor` / `release:major` for other bumps.
 - `npm run link` / `npm run unlink` - Local link/unlink against `../RESWARM/frontend` for in-platform testing.
 - No test runner or linter is configured.
 
