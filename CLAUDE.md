@@ -27,7 +27,7 @@ The element is registered as `widget-overlay-versionplaceholder` (see `src/widge
 The platform interacts with the widget via two Lit `@property` inputs only:
 
 - `inputData: ImageOverlayConfiguration` - shape defined by `src/definition-schema.json` (the source of truth) and mirrored in `src/definition-schema.d.ts`. The JSON Schema is consumed by the IronFlock UI to render the widget configuration form; descriptions in it are written for AI agent readability and platform users alike.
-- `theme: { theme_name, theme_object }` - merged with CSS custom properties `--re-text-color` and `--re-tile-background-color` from the host (CSS vars take precedence). See `registerTheme()`.
+- `theme: { theme_name, theme_object }` - merged with CSS custom properties `--re-text-color` and `--re-tile-background-color` from the host (CSS vars take precedence). See `registerTheme()`. These are not snapshotted: `registerTheme()` stores a `var(--re-…, <theme value>)` chain, so a change to the host property repaints the tile live without the widget being told.
 
 The widget also dispatches a `overlay-file-selected` CustomEvent (bubbles, composed) when a file input changes.
 
