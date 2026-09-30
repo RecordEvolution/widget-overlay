@@ -26,6 +26,7 @@
         "unlink": "npm unlink --global && cd ../RESWARM/frontend && npm unlink @record-evolution/widget-overlay && npm i @record-evolution/widget-overlay",
         "types": "cat src/definition-schema.json | json2ts --style.tabWidth=4 > src/definition-schema.d.ts",
         "preversion": "sh scripts/release-preflight.sh",
+        "version": "npm run build",
         "postversion": "git push --follow-tags && sh scripts/release-verify.sh",
         "release": "npm version patch",
         "release:minor": "npm version minor",
