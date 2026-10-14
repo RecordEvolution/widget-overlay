@@ -1,5 +1,5 @@
 {
-    "name": "@record-evolution/widget-overlay",
+    "name": "@ironflock/widget-overlay",
     "description": "Webcomponent widget-overlay following open-wc recommendations",
     "license": "MIT",
     "author": "widget-overlay",
@@ -22,8 +22,8 @@
         "start": "vite build --watch & vite",
         "build": "vite build",
         "watch": "vite build --watch",
-        "link": "npm run build && npm link && cd ../RESWARM/frontend && npm link @record-evolution/widget-overlay",
-        "unlink": "npm unlink --global && cd ../RESWARM/frontend && npm unlink @record-evolution/widget-overlay && npm i @record-evolution/widget-overlay",
+        "link": "npm run build && npm link && cd ../RESWARM/frontend && npm link @ironflock/widget-overlay",
+        "unlink": "npm unlink --global && cd ../RESWARM/frontend && npm unlink @ironflock/widget-overlay && npm i @ironflock/widget-overlay",
         "types": "cat src/definition-schema.json | json2ts --style.tabWidth=4 > src/definition-schema.d.ts",
         "preversion": "sh scripts/release-preflight.sh",
         "version": "npm run build",

@@ -16,7 +16,7 @@ Node `>=24.9.0` and npm `>=10.0.2` are required (see `engines`).
 
 ## Architecture
 
-This repo produces a single Lit web component published as `@record-evolution/widget-overlay`, consumed by the IronFlock/RESWARM platform. It renders a background image (raster, SVG file, inline SVG, data URL, or base64) and overlays positioned data pins on top.
+This repo produces a single Lit web component published as `@ironflock/widget-overlay`, consumed by the IronFlock/RESWARM platform. It renders a background image (raster, SVG file, inline SVG, data URL, or base64) and overlays positioned data pins on top.
 
 ### Versioned custom element tag
 
