@@ -44,14 +44,14 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/RecordEvolution/widget-overlay.git"
+        "url": "git+https://github.com/IronFlock/widget-overlay.git"
     },
     "keywords": [
         "widget",
         "image"
     ],
     "bugs": {
-        "url": "https://github.com/RecordEvolution/widget-overlay/issues"
+        "url": "https://github.com/IronFlock/widget-overlay/issues"
     },
-    "homepage": "https://github.com/RecordEvolution/widget-overlay#readme"
+    "homepage": "https://github.com/IronFlock/widget-overlay#readme"
 }
