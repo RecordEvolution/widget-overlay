@@ -18,7 +18,6 @@
         "thumbnail.webp"
     ],
     "scripts": {
-        "analyze": "cem analyze --litelement",
         "start": "vite build --watch & vite",
         "build": "vite build",
         "watch": "vite build --watch",
@@ -36,7 +35,6 @@
         "lit": "^3.3.3"
     },
     "devDependencies": {
-        "@custom-elements-manifest/analyzer": "^0.10.4",
         "@rollup/plugin-replace": "^6.0.2",
         "json-schema-to-typescript": "^15.0.4",
         "typescript": "5.9.3",
