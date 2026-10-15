@@ -1,9 +1,12 @@
 import { LitElement, html, css } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 
+// Versioned like the widget itself: two versions of widget-overlay can be on one
+// page, and a second customElements.define() of the same name throws, which
+// stopped the second version's whole bundle from loading.
 export
-@customElement('linear-progress')
-class LinearProgress extends LitElement {
+@customElement('widget-overlay-progress-versionplaceholder')
+class WidgetOverlayProgress extends LitElement {
     /** Progress value between 0 and 1, or undefined for indeterminate */
     @property({ type: Number })
     value?: number

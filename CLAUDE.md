@@ -26,22 +26,23 @@ The element is registered as `widget-overlay-versionplaceholder` (see `src/widge
 The platform interacts with the widget via two Lit `@property` inputs only:
 
 - `inputData: ImageOverlayConfiguration` - shape defined by `src/definition-schema.json` (the source of truth) and mirrored in `src/definition-schema.d.ts`. The JSON Schema is consumed by the IronFlock UI to render the widget configuration form; descriptions in it are written for AI agent readability and platform users alike.
-- `theme: { theme_name, theme_object }` - merged with CSS custom properties `--re-text-color` and `--re-tile-background-color` from the host (CSS vars take precedence). See `registerTheme()`. These are not snapshotted: `registerTheme()` stores a `var(--re-…, <theme value>)` chain, so a change to the host property repaints the tile live without the widget being told.
+- `theme: { theme_name, theme_object }` - the title colours are `var(--re-text-color, <theme value>)` chains (see `registerTheme()`), so the host property wins and a change to it repaints the tile live without the widget being told. The widget paints no background of its own: Studio's `widget-item` already paints `--re-tile-background-color` on the tile, and painting it again here composited a translucent tile colour twice (up to 1.0.14).
 
-The widget also dispatches a `overlay-file-selected` CustomEvent (bubbles, composed) when a file input changes.
+The widget dispatches no events.
 
 ### Definition schema is load-bearing
 
-`src/definition-schema.json` drives the UI form on the platform side AND defines the TypeScript types via `json-schema-to-typescript`. The `types` script (currently prefixed `xxxcat` to disable accidental runs) regenerates `definition-schema.d.ts`. When changing data shape, edit the JSON Schema first, then regenerate the `.d.ts`. Properties use `order`, `condition` (relative-path conditional fields), and `dataDrivenDisabled` extensions understood by the platform's form renderer.
+`src/definition-schema.json` drives the UI form on the platform side AND defines the TypeScript types via `json-schema-to-typescript`. `npm run types` regenerates `definition-schema.d.ts`. When changing data shape, edit the JSON Schema first, then regenerate the `.d.ts`. Properties use `order`, `condition` (relative-path conditional fields), and `dataDrivenDisabled` extensions understood by the platform's form renderer.
 
 ### Rendering pipeline
 
 1. `transform()` parses `inputData.image` and classifies it: inline `<svg>...</svg>` (rendered via `unsafeSVG`), `data:` URL, bare base64, absolute URL, or relative path.
-2. A `ResizeObserver` plus image `@load` triggers `getModifier()`, which computes the visible image rect inside the container (handling `object-fit: contain` letterboxing for `<img>` and viewBox/width-height for inline SVG). The result is a `Modifier` `{ scaler, xOffset, yOffset, visibleWidth, visibleHeight }`.
+2. A `ResizeObserver` (observing in `connectedCallback()`, released in `disconnectedCallback()`, because Studio moves a tile by detaching and re-attaching it) plus image `@load` triggers `getModifier()`, which computes the visible image rect inside the container (handling `object-fit: contain` letterboxing for `<img>` and viewBox/width-height for inline SVG). The result is a `Modifier` `{ scaler, xOffset, yOffset, visibleWidth, visibleHeight }`.
 3. Each overlay layer is positioned absolutely using the modifier; pins use relative coords (`relXPos`, `relYPos` in 0-1) multiplied by `visibleWidth/Height` so pin positions remain anchored to image content as the widget resizes.
-4. `sections.sectionLimits` + `sections.colors` drive threshold-based coloring for both text and progress overlays. Progress percentage is normalized against `min(sectionLimits)`-`max(sectionLimits)`.
+4. `sections.sectionLimits` + `sections.colors` drive threshold-based coloring for both text and progress overlays (`sectionColor()`). Progress percentage is normalized against `min(sectionLimits)`-`max(sectionLimits)`; without two different limits the bar stays empty.
+5. Every part of a layer is optional: a layer without `sections` or `textStyle`, null list slots and pins without coordinates render (or are skipped) instead of throwing, which used to blank the tile. Layers are keyed by index and name, because two layers may share a name and duplicate `repeat()` keys corrupt Lit's DOM bookkeeping.
 
-The internal `<linear-progress>` element (`src/linear-progress.ts`) is a separate Lit element used only by progress layers; styling is driven via CSS custom properties (`--progress-color`, `--progress-width`, etc.).
+The internal progress element (`src/linear-progress.ts`) is a separate Lit element used only by progress layers; styling is driven via CSS custom properties (`--progress-color`, `--progress-width`, etc.). It is registered as `widget-overlay-progress-versionplaceholder`, versioned like the widget, because two versions of widget-overlay can be on one page and a second `define()` of the same name throws: up to 1.0.14 it was the unversioned `<linear-progress>`, which stopped a second version's bundle from loading.
 
 ### Build output
 
